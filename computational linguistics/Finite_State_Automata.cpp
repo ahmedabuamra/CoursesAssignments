@@ -1,3 +1,16 @@
+/*
+I'd like to thank my professor Dr. Dina Khattab for her time and good explaination
+*/
+
+
+/*
+A Finite State Automaton (FSA) is a 5-tuple (Q, I, F, T, E) where:
+Q = states 		a finite set;
+I = initial states 	a nonempty subset of Q;
+F = final states 	a subset of Q;
+T = an alphabet;
+E = edges 		a subset of Q x T -> Q.
+*/
 #include<bits/stdc++.h>
 using namespace std;
 const int MX = 1e3;
