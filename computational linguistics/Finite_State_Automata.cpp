@@ -2,6 +2,17 @@
 I'd like to thank my professor Dr. Dina Khattab for her time and good explaination
 */
 
+/*
+*****SFOTWARE REQ.******
+*install graphviz
+*install dot viewer
+*/
+
+/*
+*****NOTE.******
+*The software will create a file called tree.gv in the same class' direction
+*just click on the file to open the visualization of the graph 
+*/
 
 /*
 A Finite State Automaton (FSA) is a 5-tuple (Q, I, F, T, E) where:
@@ -17,6 +28,7 @@ const int MX = 1e3;
 string states[MX],ini_states[MX],final_states[MX],input;
 int num_of_states,num_of_ini_states,num_of_final_states,num_of_alph,num_of_edges;
 vector<pair<int,char> > adj[MX];
+vector<pair<pair<string,string>,char> > allE;
 map<string,int> id;
 char alphabet[30];
 bool final[MX];
@@ -64,7 +76,24 @@ int main(){
 	for(int i = 0 ; i < num_of_edges ; i++){
 		string from,to; char val; cin >> from >> val >> to;
 		adj[id[from]].push_back(make_pair(id[to],val));
+		allE.push_back(make_pair(make_pair(from,to),val));
 	}
+	ofstream tree;
+	tree.open("tree.gv");
+	tree<<"digraph {\n";
+	for(int i = 0 ; i <  num_of_edges ; i++){
+		string toFile = allE[i].first.first;
+		toFile += " -> ";
+		toFile += allE[i].first.second;
+		toFile += "[label=\"";
+		toFile += allE[i].second;
+		toFile += "\",weight=\"";
+		toFile += allE[i].second;
+		toFile += "\"];\n";
+		tree << toFile;
+	}
+	tree<<"}";
+	tree.close();
 	while(true){
 		printf("Word: ");
 		cin >> input;
@@ -72,10 +101,21 @@ int main(){
 		else{
 			bool check = 0;
 			for(int i = 0 ; i < num_of_ini_states ; i++) check |= dfs(0,id[ini_states[i]]);
-
 			if(check) cout << "ACCEPTED!\n";
 			else cout << "WRONG WORD!\n";
 		}
 	}
 }
-
+/*
+3
+1 2 3
+1 1
+1 3
+2 a b
+5
+1 a 2
+1 b 3
+2 b 3
+3 a 2
+3 b 3
+ */
